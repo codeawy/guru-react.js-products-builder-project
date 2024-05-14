@@ -1,11 +1,7 @@
 import { Product } from "@/interfaces";
 import ProductCardAction from "./ProductCardAction";
 
-interface IProductCard {
-  product: Product;
-}
-
-const ProductCard = ({ product: { id, title, description } }: IProductCard) => {
+const ProductCard = ({ id, title, description }: Product) => {
   return (
     <div key={id} className="space-y-3 rounded-lg border p-3 duration-500">
       <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
