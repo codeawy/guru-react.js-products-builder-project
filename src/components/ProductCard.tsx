@@ -1,7 +1,18 @@
 import { Product } from "@/interfaces";
 import ProductCardAction from "./ProductCardAction";
 
-const ProductCard = ({ id, title, description }: Product) => {
+interface ProductCard extends Product {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+}
+
+const ProductCard = ({
+  id,
+  title,
+  description,
+  open,
+  setOpen,
+}: ProductCard) => {
   return (
     <div key={id} className="space-y-3 rounded-lg border p-3 duration-500">
       <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
@@ -18,7 +29,7 @@ const ProductCard = ({ id, title, description }: Product) => {
         <span>Cars</span>
       </div>
 
-      <ProductCardAction />
+      <ProductCardAction open={open} setOpen={setOpen} />
     </div>
   );
 };
