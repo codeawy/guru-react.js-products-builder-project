@@ -1,12 +1,25 @@
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Product } from "@/interfaces";
 import { fakeProductList } from "@/lib/fakeData";
+import { useState } from "react";
 import ProductCard from "./ProductCard";
 import EditProductDialog from "./dialogs/EditProductDialog";
-import { useState } from "react";
-import { Product } from "@/interfaces";
+import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
 
 const ProductCardList = () => {
+  const { toast } = useToast();
   const [productList, setProductList] = useState<Product[]>(fakeProductList);
   const [open, setOpen] = useState(false);
+  const [openDestroyDialog, setOpenDestroyDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product>({
     id: "",
     title: "",
@@ -14,6 +27,26 @@ const ProductCardList = () => {
     price: 0,
   });
   const [selectedProductIdx, setSelectedProductIdx] = useState<number>(-1);
+
+  const onDestroy = () => {
+    // ** 1.Access the selected product
+    const filteredProducts = productList.filter(
+      (product) => product.id !== productList[selectedProductIdx]["id"],
+    );
+    // ** 2.Update the product list
+    setProductList(filteredProducts);
+    // ** 3.Close the dialog
+    setOpenDestroyDialog(false);
+    // ** 4. Go back to the init state (selectedProductIdx)
+    setSelectedProductIdx(-1);
+    // ** 5. Show a toast
+    toast({
+      title: "Product Deleted",
+      description: "Your product has been deleted",
+      duration: 5000,
+      variant: "destructive",
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -26,6 +59,8 @@ const ProductCardList = () => {
           setSelectedProduct={setSelectedProduct}
           productIdx={idx}
           setSelectedProductIdx={setSelectedProductIdx}
+          openDestroyDialog={openDestroyDialog}
+          setOpenDestroyDialog={setOpenDestroyDialog}
         />
       ))}
 
@@ -38,6 +73,27 @@ const ProductCardList = () => {
         setProductList={setProductList}
         selectedProductIdx={selectedProductIdx}
       />
+
+      <AlertDialog open={openDestroyDialog} onOpenChange={setOpenDestroyDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you absolutely sure?
+              {selectedProduct.title}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button onClick={onDestroy} variant={"destructive"}>
+              Destroy
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
