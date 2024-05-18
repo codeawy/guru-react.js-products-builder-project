@@ -16,13 +16,15 @@ import {
 } from "@/components/ui/select";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { Product } from "@/interfaces";
 
 interface IProps {
+  selectedProduct: Product;
   open: boolean;
   setOpen: (value: boolean) => void;
 }
 
-const EditProductDialog = ({ open, setOpen }: IProps) => {
+const EditProductDialog = ({ selectedProduct, open, setOpen }: IProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -34,7 +36,12 @@ const EditProductDialog = ({ open, setOpen }: IProps) => {
             <Label htmlFor="title" className="text-right">
               Title
             </Label>
-            <Input id="title" name="title" className="col-span-3" />
+            <Input
+              id="title"
+              name="title"
+              className="col-span-3"
+              defaultValue={selectedProduct.title}
+            />
           </div>
           <div className="gap-4 space-y-1">
             <Label htmlFor="imageUrl" className="text-right">
