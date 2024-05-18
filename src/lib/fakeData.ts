@@ -11,6 +11,6 @@ export const fakeProductList: Product[] = Array.from(
     id: faker.string.uuid(),
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
-    price: faker.commerce.price(),
+    price: +faker.commerce.price(),
   }),
 );

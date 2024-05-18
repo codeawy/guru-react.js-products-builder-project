@@ -4,22 +4,25 @@ import { Button } from "./ui/button";
 interface ProductCardActionProps {
   product: Product;
   open: boolean;
+  productIdx: number;
   setOpen: (value: boolean) => void;
   setSelectedProduct: (product: Product) => void;
+  setSelectedProductIdx: (idx: number) => void;
 }
 
 const ProductCardAction = ({
   product,
   open,
   setOpen,
+  productIdx,
   setSelectedProduct,
+  setSelectedProductIdx,
 }: ProductCardActionProps) => {
   const onEdit = () => {
-    // ** 1.Store the product data to a state
-    console.log(product);
     setSelectedProduct(product);
-    // ** 2.open the edit dialog
     setOpen(!open);
+    // ** Set index
+    setSelectedProductIdx(productIdx);
   };
 
   return (

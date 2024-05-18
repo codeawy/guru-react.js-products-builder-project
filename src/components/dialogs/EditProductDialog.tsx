@@ -19,12 +19,31 @@ import { Textarea } from "../ui/textarea";
 import { Product } from "@/interfaces";
 
 interface IProps {
-  selectedProduct: Product;
   open: boolean;
   setOpen: (value: boolean) => void;
+  selectedProduct: Product;
+  setSelectedProduct: (product: Product) => void;
+  productList: Product[];
+  setProductList: (productList: Product[]) => void;
+  selectedProductIdx: number;
 }
 
-const EditProductDialog = ({ selectedProduct, open, setOpen }: IProps) => {
+const EditProductDialog = ({
+  open,
+  setOpen,
+  selectedProduct,
+  setSelectedProduct,
+  productList,
+  setProductList,
+  selectedProductIdx,
+}: IProps) => {
+  const onSaveChanges = () => {
+    const updatedProductList = [...productList];
+    updatedProductList[selectedProductIdx] = { ...selectedProduct };
+    setProductList(updatedProductList);
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -40,7 +59,13 @@ const EditProductDialog = ({ selectedProduct, open, setOpen }: IProps) => {
               id="title"
               name="title"
               className="col-span-3"
-              defaultValue={selectedProduct.title}
+              value={selectedProduct.title}
+              onChange={(evt) =>
+                setSelectedProduct({
+                  ...selectedProduct,
+                  title: evt.target.value,
+                })
+              }
             />
           </div>
           <div className="gap-4 space-y-1">
@@ -87,7 +112,9 @@ const EditProductDialog = ({ selectedProduct, open, setOpen }: IProps) => {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" onClick={onSaveChanges}>
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
