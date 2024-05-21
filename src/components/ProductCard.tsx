@@ -21,13 +21,14 @@ const ProductCard = ({
   setSelectedProductIdx,
   setOpenDestroyDialog,
 }: ProductCard) => {
-  const { id, title, description } = product;
+  const { id, title, description, imgURL } = product;
 
   return (
     <div key={id} className="space-y-3 rounded-lg border p-3 duration-500">
       <h4>
         IDX: {productIdx} - {title}
       </h4>
+      <img src={imgURL} className="rounded-md" />
       <p>{description}</p>
       <div>
         <span>🟢</span>

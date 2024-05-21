@@ -14,11 +14,13 @@ import ProductCard from "./ProductCard";
 import EditProductDialog from "./dialogs/EditProductDialog";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
+import AddProductDialog from "./dialogs/AddProductDialog";
 
 const ProductCardList = () => {
   const { toast } = useToast();
   const [productList, setProductList] = useState<Product[]>(fakeProductList);
-  const [open, setOpen] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDestroyDialog, setOpenDestroyDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product>({
     id: "",
@@ -49,24 +51,36 @@ const ProductCardList = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {productList.map((product, idx) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          open={open}
-          setOpen={setOpen}
-          setSelectedProduct={setSelectedProduct}
-          productIdx={idx}
-          setSelectedProductIdx={setSelectedProductIdx}
-          openDestroyDialog={openDestroyDialog}
-          setOpenDestroyDialog={setOpenDestroyDialog}
-        />
-      ))}
+    <div className="my-10">
+      <Button className="mb-5" onClick={() => setOpenAddDialog(true)}>
+        Add a new
+      </Button>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {productList.map((product, idx) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            open={openEditDialog}
+            setOpen={setOpenEditDialog}
+            setSelectedProduct={setSelectedProduct}
+            productIdx={idx}
+            setSelectedProductIdx={setSelectedProductIdx}
+            openDestroyDialog={openDestroyDialog}
+            setOpenDestroyDialog={setOpenDestroyDialog}
+          />
+        ))}
+      </div>
+
+      <AddProductDialog
+        open={openAddDialog}
+        setOpen={setOpenAddDialog}
+        productList={productList}
+        setProductList={setProductList}
+      />
 
       <EditProductDialog
-        open={open}
-        setOpen={setOpen}
+        open={openEditDialog}
+        setOpen={setOpenEditDialog}
         selectedProduct={selectedProduct}
         setSelectedProduct={setSelectedProduct}
         productList={productList}

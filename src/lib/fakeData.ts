@@ -12,5 +12,6 @@ export const fakeProductList: Product[] = Array.from(
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     price: +faker.commerce.price(),
+    imgURL: faker.image.urlPicsumPhotos(),
   }),
 );
