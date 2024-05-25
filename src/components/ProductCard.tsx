@@ -21,7 +21,7 @@ const ProductCard = ({
   setSelectedProductIdx,
   setOpenDestroyDialog,
 }: ProductCard) => {
-  const { id, title, description, imgURL } = product;
+  const { id, title, description, imgURL, price } = product;
 
   return (
     <div key={id} className="space-y-3 rounded-lg border p-3 duration-500">
@@ -36,7 +36,7 @@ const ProductCard = ({
         <span>🟢</span>
       </div>
       <div className="flex items-center justify-between gap-3">
-        <span>500,000</span>
+        <span>{price}</span>
         <span>Cars</span>
       </div>
 

@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import {
   Dialog,
   DialogContent,
@@ -47,11 +48,16 @@ const formSchema = z.object({
   category: z.string({
     required_error: "Please select a category to display.",
   }),
-  price: z.number().gte(5),
+  price: z.coerce.number().min(50),
   imgURL: z.string().url("Please, provide a valid image URL"),
 });
 
-const AddProductDialog = ({ open, setOpen }: IProps) => {
+const AddProductDialog = ({
+  open,
+  setOpen,
+  productList,
+  setProductList,
+}: IProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,8 +69,7 @@ const AddProductDialog = ({ open, setOpen }: IProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // ** TODO: On save the product
-    console.log(values);
+    setProductList([...productList, { id: uuid(), ...values }]);
   };
 
   return (
