@@ -31,6 +31,7 @@ const ProductCardList = () => {
     colors: [],
   });
   const [selectedProductIdx, setSelectedProductIdx] = useState<number>(-1);
+  const [tempSelectedColors, setTempSelectedColor] = useState<string[]>([]);
 
   const onDestroy = () => {
     // ** 1.Access the selected product
@@ -78,6 +79,8 @@ const ProductCardList = () => {
         setOpen={setOpenAddDialog}
         productList={productList}
         setProductList={setProductList}
+        tempSelectedColors={tempSelectedColors}
+        setTempSelectedColor={setTempSelectedColor}
       />
 
       <EditProductDialog

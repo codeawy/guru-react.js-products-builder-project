@@ -30,13 +30,15 @@ import {
 import { Textarea } from "../ui/textarea";
 import ColorCircle from "../ColorCircle";
 import { Label } from "../ui/label";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 interface IProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   productList: Product[];
   setProductList: (productList: Product[]) => void;
+  tempSelectedColors: string[];
+  setTempSelectedColor: Dispatch<SetStateAction<string[]>>;
 }
 
 const formSchema = z.object({
@@ -60,6 +62,8 @@ const AddProductDialog = ({
   setOpen,
   productList,
   setProductList,
+  tempSelectedColors,
+  setTempSelectedColor,
 }: IProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,13 +74,17 @@ const AddProductDialog = ({
       imgURL: "",
     },
   });
-  const [tempSelectedColors, setTempSelectedColor] = useState<string[]>([]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setProductList([
-      { id: uuid(), colors: ["red", "green", "yellow"], ...values },
+      { id: uuid(), colors: tempSelectedColors, ...values },
       ...productList,
     ]);
+    // ** Close the dialog
+    setOpen(false);
+    // ** Reset the form
+    // ** Reset Temp colors
+    setTempSelectedColor([]);
   };
 
   return (
@@ -178,14 +186,16 @@ const AddProductDialog = ({
                 />
               </div>
               <div className="flex flex-wrap items-center space-x-2">
-                {tempSelectedColors.map((color) => (
-                  <span
-                    className="inline-block text-xs"
-                    style={{ backgroundColor: color }}
-                  >
-                    {color}
-                  </span>
-                ))}
+                {!tempSelectedColors.length
+                  ? "No colors selected"
+                  : tempSelectedColors.map((color) => (
+                      <span
+                        className="inline-block text-xs"
+                        style={{ backgroundColor: color }}
+                      >
+                        {color}
+                      </span>
+                    ))}
               </div>
               <div className="flex flex-col space-y-2">
                 <Label>Colors</Label>
