@@ -1,5 +1,6 @@
 import { Product } from "@/interfaces";
 import ProductCardAction from "./ProductCardAction";
+import ColorCircle from "./ColorCircle";
 
 interface ProductCard {
   product: Product;
@@ -30,11 +31,7 @@ const ProductCard = ({
       <p>{description}</p>
       <div className="flex items-center space-x-2">
         {colors.map((color, idx) => (
-          <span
-            key={idx}
-            style={{ backgroundColor: color }}
-            className="inline-block h-5 w-5 rounded-full"
-          />
+          <ColorCircle key={idx} color={color} />
         ))}
       </div>
       <div className="flex items-center justify-between gap-3">

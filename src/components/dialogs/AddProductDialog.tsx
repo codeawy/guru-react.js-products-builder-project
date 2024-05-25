@@ -28,6 +28,9 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Textarea } from "../ui/textarea";
+import ColorCircle from "../ColorCircle";
+import { Label } from "../ui/label";
+import { useState } from "react";
 
 interface IProps {
   open: boolean;
@@ -67,6 +70,7 @@ const AddProductDialog = ({
       imgURL: "",
     },
   });
+  const [tempSelectedColors, setTempSelectedColor] = useState<string[]>([]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setProductList([
@@ -172,6 +176,39 @@ const AddProductDialog = ({
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="flex flex-wrap items-center space-x-2">
+                {tempSelectedColors.map((color) => (
+                  <span
+                    className="inline-block text-xs"
+                    style={{ backgroundColor: color }}
+                  >
+                    {color}
+                  </span>
+                ))}
+              </div>
+              <div className="flex flex-col space-y-2">
+                <Label>Colors</Label>
+                <div className="flex items-center space-x-2">
+                  {["#A31ACB", "#3C2A21", "#1F8A70", "#820000", "#FF0032"].map(
+                    (color, idx) => (
+                      <ColorCircle
+                        key={idx}
+                        color={color}
+                        onClick={() => {
+                          // ** Check if color exists, filter it out
+                          if (tempSelectedColors.includes(color)) {
+                            setTempSelectedColor((prev) =>
+                              prev.filter((item) => item !== color),
+                            );
+                            return;
+                          }
+                          setTempSelectedColor((prev) => [...prev, color]);
+                        }}
+                      />
+                    ),
+                  )}
+                </div>
               </div>
             </div>
             <DialogFooter>
