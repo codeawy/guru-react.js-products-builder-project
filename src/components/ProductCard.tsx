@@ -21,21 +21,25 @@ const ProductCard = ({
   setSelectedProductIdx,
   setOpenDestroyDialog,
 }: ProductCard) => {
-  const { id, title, description, imgURL, price } = product;
+  const { id, title, description, imgURL, price, category, colors } = product;
 
   return (
     <div key={id} className="space-y-3 rounded-lg border p-3 duration-500">
       <h4>{title}</h4>
       <img src={imgURL} className="rounded-md" />
       <p>{description}</p>
-      <div>
-        <span>🟢</span>
-        <span>🟢</span>
-        <span>🟢</span>
+      <div className="flex items-center space-x-2">
+        {colors.map((color, idx) => (
+          <span
+            key={idx}
+            style={{ backgroundColor: color }}
+            className="inline-block h-5 w-5 rounded-full"
+          />
+        ))}
       </div>
       <div className="flex items-center justify-between gap-3">
         <span>{price}</span>
-        <span>Cars</span>
+        <span>{category}</span>
       </div>
 
       <ProductCardAction

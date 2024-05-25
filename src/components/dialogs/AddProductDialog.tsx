@@ -69,7 +69,10 @@ const AddProductDialog = ({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    setProductList([...productList, { id: uuid(), ...values }]);
+    setProductList([
+      { id: uuid(), colors: ["red", "green", "yellow"], ...values },
+      ...productList,
+    ]);
   };
 
   return (

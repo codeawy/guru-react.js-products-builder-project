@@ -14,5 +14,6 @@ export const fakeProductList: Product[] = Array.from(
     price: +faker.commerce.price(),
     imgURL: faker.image.urlPicsumPhotos(),
     category: faker.lorem.word(),
+    colors: [faker.color.human(), faker.color.human(), faker.color.human()],
   }),
 );
