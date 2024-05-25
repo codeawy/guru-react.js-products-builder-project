@@ -25,9 +25,7 @@ const ProductCard = ({
 
   return (
     <div key={id} className="space-y-3 rounded-lg border p-3 duration-500">
-      <h4>
-        IDX: {productIdx} - {title}
-      </h4>
+      <h4>{title}</h4>
       <img src={imgURL} className="rounded-md" />
       <p>{description}</p>
       <div>
