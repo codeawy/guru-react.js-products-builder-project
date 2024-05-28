@@ -32,6 +32,7 @@ import ColorCircle from "../ColorCircle";
 import { Label } from "../ui/label";
 import { Dispatch, SetStateAction } from "react";
 import { COLORS } from "@/constants/color";
+import { productFormSchema } from "@/validation/product";
 
 interface IProps {
   open: boolean;
@@ -42,22 +43,6 @@ interface IProps {
   setTempSelectedColor: Dispatch<SetStateAction<string[]>>;
 }
 
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(15, "Title must be at least 15 characters.")
-    .max(50, "Title must be at most 50 characters."),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters.")
-    .max(50, "Description must be at most 50 characters."),
-  category: z.string({
-    required_error: "Please select a category to display.",
-  }),
-  price: z.coerce.number().min(50),
-  imgURL: z.string().url("Please, provide a valid image URL"),
-});
-
 const AddProductDialog = ({
   open,
   setOpen,
@@ -66,8 +51,8 @@ const AddProductDialog = ({
   tempSelectedColors,
   setTempSelectedColor,
 }: IProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof productFormSchema>>({
+    resolver: zodResolver(productFormSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -76,7 +61,7 @@ const AddProductDialog = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof productFormSchema>) => {
     setProductList([
       { id: uuid(), colors: tempSelectedColors, ...values },
       ...productList,
