@@ -31,7 +31,8 @@ const ProductCard = ({
       <p>{description}</p>
       <div className="flex items-center space-x-2">
         {colors.map((color, idx) => (
-          <ColorCircle key={idx} color={color} />
+          // TODO: add onClick functionality
+          <ColorCircle key={idx} color={color} onClick={() => {}} />
         ))}
       </div>
       <div className="flex items-center justify-between gap-3">

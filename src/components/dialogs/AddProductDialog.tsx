@@ -31,6 +31,7 @@ import { Textarea } from "../ui/textarea";
 import ColorCircle from "../ColorCircle";
 import { Label } from "../ui/label";
 import { Dispatch, SetStateAction } from "react";
+import { COLORS } from "@/constants/color";
 
 interface IProps {
   open: boolean;
@@ -190,6 +191,7 @@ const AddProductDialog = ({
                   ? "No colors selected"
                   : tempSelectedColors.map((color) => (
                       <span
+                        key={color}
                         className="inline-block text-xs"
                         style={{ backgroundColor: color }}
                       >
@@ -200,24 +202,22 @@ const AddProductDialog = ({
               <div className="flex flex-col space-y-2">
                 <Label>Colors</Label>
                 <div className="flex items-center space-x-2">
-                  {["#A31ACB", "#3C2A21", "#1F8A70", "#820000", "#FF0032"].map(
-                    (color, idx) => (
-                      <ColorCircle
-                        key={idx}
-                        color={color}
-                        onClick={() => {
-                          // ** Check if color exists, filter it out
-                          if (tempSelectedColors.includes(color)) {
-                            setTempSelectedColor((prev) =>
-                              prev.filter((item) => item !== color),
-                            );
-                            return;
-                          }
-                          setTempSelectedColor((prev) => [...prev, color]);
-                        }}
-                      />
-                    ),
-                  )}
+                  {COLORS.map((color, idx) => (
+                    <ColorCircle
+                      key={idx}
+                      color={color}
+                      onClick={() => {
+                        // ** Check if color exists, filter it out
+                        if (tempSelectedColors.includes(color)) {
+                          setTempSelectedColor((prev) =>
+                            prev.filter((item) => item !== color),
+                          );
+                          return;
+                        }
+                        setTempSelectedColor((prev) => [...prev, color]);
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

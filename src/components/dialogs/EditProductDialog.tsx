@@ -17,15 +17,19 @@ import {
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Product } from "@/interfaces";
+import ColorCircle from "../ColorCircle";
+import { COLORS } from "@/constants/color";
 
 interface IProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   selectedProduct: Product;
-  setSelectedProduct: (product: Product) => void;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product>>;
   productList: Product[];
   setProductList: (productList: Product[]) => void;
   selectedProductIdx: number;
+  tempSelectedColors: string[];
+  setTempSelectedColor: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const EditProductDialog = ({
@@ -36,6 +40,8 @@ const EditProductDialog = ({
   productList,
   setProductList,
   selectedProductIdx,
+  tempSelectedColors,
+  setTempSelectedColor,
 }: IProps) => {
   const onSaveChanges = () => {
     const updatedProductList = [...productList];
@@ -109,6 +115,54 @@ const EditProductDialog = ({
               name="description"
               className="col-span-3"
             />
+          </div>
+
+          <div>
+            <Label>Standard Colors:</Label>
+            <div className="flex items-center space-x-2">
+              {COLORS.map((color) => (
+                <span
+                  key={color}
+                  style={{ backgroundColor: color }}
+                  className="cursor-pointer rounded-sm p-1 text-xs"
+                  onClick={() => {
+                    // ** 1.Check if color exits on selectedColor state
+                    if (selectedProduct.colors.includes(color)) {
+                      return;
+                    }
+                    setSelectedProduct((prev) => {
+                      return {
+                        ...prev,
+                        colors: [...prev.colors, color],
+                      };
+                    });
+                  }}
+                >
+                  {color}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col space-y-2">
+            <Label>Colors</Label>
+            <div className="flex flex-wrap items-center space-x-2">
+              {selectedProduct.colors.map((color, idx) => (
+                <ColorCircle
+                  key={idx}
+                  color={color}
+                  onClick={() => {
+                    // ** Check if color exists, filter it out
+                    if (tempSelectedColors.includes(color)) {
+                      setTempSelectedColor((prev) =>
+                        prev.filter((item) => item !== color),
+                      );
+                      return;
+                    }
+                    setTempSelectedColor((prev) => [...prev, color]);
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <DialogFooter>

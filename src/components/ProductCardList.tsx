@@ -91,6 +91,8 @@ const ProductCardList = () => {
         productList={productList}
         setProductList={setProductList}
         selectedProductIdx={selectedProductIdx}
+        tempSelectedColors={tempSelectedColors}
+        setTempSelectedColor={setTempSelectedColor}
       />
 
       <AlertDialog open={openDestroyDialog} onOpenChange={setOpenDestroyDialog}>
